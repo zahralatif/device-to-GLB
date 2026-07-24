@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables and secrets
+.env
+.env.local
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Log files
+*.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# -------------------------------------------------------------
+
+# If .glb models are automatically generated, ignore them to keep the repo clean:
+# models/ 
+# Or, to ignore only the generated files while keeping the folder structure:
+models/*.glb
