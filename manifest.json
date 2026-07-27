@@ -1,3 +1,103 @@
 {
-  "models": []
+  "models": [
+    {
+      "id": "crac-floor-vertiv-liebert-crv",
+      "file": "crac-floor-vertiv-liebert-crv.glb",
+      "category": "device",
+      "source": "device-to-glb",
+      "license": "internal",
+      "dimensions_mm": {
+        "width": 1200.0,
+        "depth": 800.0,
+        "height": 1800.0
+      },
+      "faces_textured": [
+        "front"
+      ],
+      "generated_at": "2026-04-30"
+    },
+    {
+      "id": "fire-panel-wall-generic-fm200-extinguishant-control-panel",
+      "file": "fire-panel-wall-generic-fm200-extinguishant-control-panel.glb",
+      "category": "device",
+      "source": "device-to-glb",
+      "license": "internal",
+      "dimensions_mm": {
+        "width": 540.0,
+        "depth": 140.0,
+        "height": 400.0
+      },
+      "faces_textured": [
+        "front"
+      ],
+      "generated_at": "2026-04-30"
+    },
+    {
+      "id": "pdu-0u-vertiv-geist-rpdu-30-outlet",
+      "file": "pdu-0u-vertiv-geist-rpdu-30-outlet.glb",
+      "category": "device",
+      "source": "device-to-glb",
+      "license": "internal",
+      "dimensions_mm": {
+        "width": 50.0,
+        "depth": 60.0,
+        "height": 1700.0
+      },
+      "faces_textured": [
+        "front"
+      ],
+      "generated_at": "2026-04-30"
+    },
+    {
+      "id": "server-1u-dell-poweredge-r640",
+      "file": "server-1u-dell-poweredge-r640.glb",
+      "category": "device",
+      "source": "device-to-glb",
+      "license": "internal",
+      "dimensions_mm": {
+        "width": 443.0,
+        "depth": 734.0,
+        "height": 43.0
+      },
+      "faces_textured": [
+        "front",
+        "rear"
+      ],
+      "generated_at": "2026-04-30"
+    },
+    {
+      "id": "switch-1u-cisco-catalyst-c9300-48p-m",
+      "file": "switch-1u-cisco-catalyst-c9300-48p-m.glb",
+      "category": "device",
+      "source": "device-to-glb",
+      "license": "internal",
+      "dimensions_mm": {
+        "width": 445.0,
+        "depth": 483.0,
+        "height": 44.0
+      },
+      "faces_textured": [
+        "front",
+        "rear"
+      ],
+      "generated_at": "2026-04-30"
+    },
+    {
+      "id": "ups-3u-apc-smart-ups-xl-sua3000rmxl3u",
+      "file": "ups-3u-apc-smart-ups-xl-sua3000rmxl3u.glb",
+      "category": "device",
+      "source": "device-to-glb",
+      "license": "internal",
+      "dimensions_mm": {
+        "width": 443.0,
+        "depth": 660.0,
+        "height": 132.0
+      },
+      "faces_textured": [
+        "front",
+        "rear"
+      ],
+      "generated_at": "2026-04-30"
+    }
+  ]
 }
