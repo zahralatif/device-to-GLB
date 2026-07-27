@@ -5,9 +5,10 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
 & "$projectRoot\.venv\Scripts\python.exe" `
     "$projectRoot\tools\device-to-glb.py" `
     --id pdu-0u-vertiv-geist `
-    --width 51 `
-    --depth 51 `
-    --height 1683 `
+    --width 50 `
+    --depth 60 `
+    --height 1700 `
     --front "$projectRoot\ref\vertiv-pdu\prepared\front.png" `
-    --color "#1a1a1a" `
-    --output "$projectRoot\models\pdu-0u-vertiv-geist.glb"
+    --color "#a3a3a3" `
+    --output "$projectRoot\models\pdu-0u-vertiv-geist.glb" `
+    --manifest "$projectRoot\manifest.json"

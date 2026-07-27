@@ -10,4 +10,5 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
     --height 400 `
     --front "$projectRoot\ref\fm200-fire-panel\prepared\front.png" `
     --color "#861212" `
-    --output "$projectRoot\models\fm200-fire-panel.glb"
+    --output "$projectRoot\models\fm200-fire-panel.glb" `
+    --manifest "$projectRoot\manifest.json"

@@ -11,4 +11,5 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
     --front "$projectRoot\ref\server-1u\prepared\front.png" `
     --rear "$projectRoot\ref\server-1u\prepared\rear.png" `
     --color "#2d2d2d" `
-    --output "$projectRoot\models\server-1u-generic.glb"
+    --output "$projectRoot\models\server-1u-generic.glb" `
+    --manifest "$projectRoot\manifest.json"

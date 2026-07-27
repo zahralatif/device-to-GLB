@@ -11,4 +11,5 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
     --front "$projectRoot\ref\cisco-9300\prepared\front.png" `
     --rear "$projectRoot\ref\cisco-9300\prepared\rear.png" `
     --color "#1a1a2e" `
-    --output "$projectRoot\models\switch-1u-cisco-9300.glb"
+    --output "$projectRoot\models\switch-1u-cisco-9300.glb" `
+    --manifest "$projectRoot\manifest.json"

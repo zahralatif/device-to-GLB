@@ -4,10 +4,11 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
 
 & "$projectRoot\.venv\Scripts\python.exe" `
     "$projectRoot\tools\device-to-glb.py" `
-    --id crac-liebert-crv `
-    --width 300 `
-    --depth 1132 `
-    --height 2000 `
+    --id crac-floor-liebert `
+    --width 1200 `
+    --depth 800 `
+    --height 1800 `
     --front "$projectRoot\ref\liebert-crac\prepared\front.png" `
-    --color "#1f1f1f" `
-    --output "$projectRoot\models\crac-liebert-crv.glb"
+    --color "#252525" `
+    --output "$projectRoot\models\crac-floor-liebert.glb" `
+    --manifest "$projectRoot\manifest.json"

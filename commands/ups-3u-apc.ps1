@@ -11,4 +11,5 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
     --front "$projectRoot\ref\ups-3u-apc\prepared\front.png" `
     --rear "$projectRoot\ref\ups-3u-apc\prepared\rear.png" `
     --color "#1a1a1a" `
-    --output "$projectRoot\models\ups-3u-apc-smart.glb"
+    --output "$projectRoot\models\ups-3u-apc-smart.glb" `
+    --manifest "$projectRoot\manifest.json"
