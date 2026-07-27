@@ -149,7 +149,17 @@ function ZoomStatus({ onDistanceChange }: ZoomStatusProps) {
   return null
 }
 
-function ModelViewer({ card }: { card: ModelCard }) {
+interface ModelViewerProps {
+  card: ModelCard
+  onOpen?: () => void
+  fullScreen?: boolean
+}
+
+function ModelViewer({
+  card,
+  onOpen,
+  fullScreen = false,
+}: ModelViewerProps) {
   const [distance, setDistance] = useState(1.8)
   const [triangles, setTriangles] = useState<number | null>(null)
 
@@ -161,7 +171,11 @@ function ModelViewer({ card }: { card: ModelCard }) {
         : 'EXTREME ZOOM'
 
   return (
-    <div className="viewer">
+    <div
+      className={`viewer ${fullScreen ? 'viewer-fullscreen' : ''}`}
+      onDoubleClick={onOpen}
+      title={onOpen ? 'Double-click to open full view' : undefined}
+    >
       <Canvas
         camera={{
           position: [1.2, -1.5, 0.9],
@@ -232,11 +246,50 @@ function ModelViewer({ card }: { card: ModelCard }) {
       <div className="triangle-badge">
         Triangles: {triangles ?? '...'}
       </div>
+
+      {onOpen && (
+        <button
+          type="button"
+          className="open-view-button"
+          onClick={(event) => {
+            event.stopPropagation()
+            onOpen()
+          }}
+        >
+          Full view
+        </button>
+      )}
     </div>
   )
 }
 
 export function Gallery() {
+  const [selectedCard, setSelectedCard] =
+    useState<ModelCard | null>(null)
+
+  useEffect(() => {
+    if (!selectedCard) {
+      return
+    }
+
+    const previousOverflow = document.body.style.overflow
+
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedCard(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [selectedCard])
+
   return (
     <main className="page">
       <header className="page-header">
@@ -245,7 +298,7 @@ export function Gallery() {
 
           <p>
             Drag to rotate. Use the mouse wheel to zoom.
-            Check front, rear, sides, textures and beveled edges.
+            Double-click a model or press Full view to inspect it separately.
           </p>
         </div>
 
@@ -269,7 +322,10 @@ export function Gallery() {
               </span>
             </div>
 
-            <ModelViewer card={card} />
+            <ModelViewer
+              card={card}
+              onOpen={() => setSelectedCard(card)}
+            />
 
             <div className="metadata">
               <code>{card.id}</code>
@@ -279,24 +335,41 @@ export function Gallery() {
         ))}
       </section>
 
-      <section className="checklist">
-        <h2>Verification checklist</h2>
+      {selectedCard && (
+        <div
+          className="model-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${selectedCard.label} full view`}
+        >
+          <div className="model-modal-header">
+            <div>
+              <h2>{selectedCard.label}</h2>
 
-        <div className="checklist-grid">
-          <label><input type="checkbox" /> All 6 GLB files load without error</label>
-          <label><input type="checkbox" /> Every model rotates smoothly</label>
-          <label><input type="checkbox" /> Front textures are clear</label>
-          <label><input type="checkbox" /> Rear textures are correctly oriented</label>
-          <label><input type="checkbox" /> No face is mirrored or upside down</label>
-          <label><input type="checkbox" /> Beveled edges are visible</label>
-          <label><input type="checkbox" /> Switch port geometry looks correct</label>
-          <label><input type="checkbox" /> Server front does not require a 4×1 grid</label>
-          <label><input type="checkbox" /> PDU is tall and thin</label>
-          <label><input type="checkbox" /> CRAC is floor-standing</label>
-          <label><input type="checkbox" /> Fire panel has wall-panel proportions</label>
-          <label><input type="checkbox" /> Extreme zoom reveals no broken geometry</label>
+              <p>
+                {selectedCard.type} · {selectedCard.dimensions}
+              </p>
+
+              <code>{selectedCard.id}</code>
+            </div>
+
+            <button
+              type="button"
+              className="close-modal-button"
+              onClick={() => setSelectedCard(null)}
+            >
+              ← Back to gallery
+            </button>
+          </div>
+
+          <div className="model-modal-viewer">
+            <ModelViewer
+              card={selectedCard}
+              fullScreen
+            />
+          </div>
         </div>
-      </section>
+      )}
     </main>
   )
 }
