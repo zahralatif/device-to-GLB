@@ -30,6 +30,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from datetime import date
 
 import numpy as np
 import trimesh
@@ -383,7 +384,7 @@ def main() -> None:
                 "height": args.height,
             },
             "faces_textured": provided,
-            "generated_at": "2026-07-24",
+            "generated_at": date.today().isoformat(),
             "bevel_mm": args.bevel,
             "detail_grid": args.detail_grid,
             "detail_depth_mm": args.detail_depth,

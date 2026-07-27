@@ -10,5 +10,6 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
     --height 1700 `
     --front "$projectRoot\ref\pdu-0u-vertiv-geist-rpdu-30-outlet\prepared\front.png" `
     --color "#a3a3a3" `
+    --bevel 1.0 `
     --output "$projectRoot\models\pdu-0u-vertiv-geist-rpdu-30-outlet.glb" `
     --manifest "$projectRoot\manifest.json"

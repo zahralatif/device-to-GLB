@@ -10,5 +10,6 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
     --height 400 `
     --front "$projectRoot\ref\fire-panel-wall-generic-fm200-extinguishant-control-panel\prepared\front.png" `
     --color "#861212" `
+    --bevel 2.0 `
     --output "$projectRoot\models\fire-panel-wall-generic-fm200-extinguishant-control-panel.glb" `
     --manifest "$projectRoot\manifest.json"

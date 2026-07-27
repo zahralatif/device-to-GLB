@@ -38,3 +38,8 @@ Desktop.ini
 # models/ 
 # Or, to ignore only the generated files while keeping the folder structure:
 models/*.glb
+
+# Backups and temporary files
+models-basic/
+models-before-*/
+manifest-before-*.json
