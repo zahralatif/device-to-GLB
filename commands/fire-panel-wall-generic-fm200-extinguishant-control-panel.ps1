@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 
 & "$projectRoot\.venv\Scripts\python.exe" `
-    "$projectRoot\tools\device-to-glb.py" `
+    "$projectRoot\tools\device-to-glb-hq.py" `
     --id fire-panel-wall-generic-fm200-extinguishant-control-panel `
     --width 540 `
     --depth 140 `

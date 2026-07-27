@@ -52,7 +52,7 @@
       "id": "server-1u-dell-poweredge-r640",
       "file": "server-1u-dell-poweredge-r640.glb",
       "category": "device",
-      "source": "device-to-glb-hq",
+      "source": "device-to-glb",
       "license": "internal",
       "dimensions_mm": {
         "width": 443.0,
@@ -63,30 +63,24 @@
         "front",
         "rear"
       ],
-      "generated_at": "2026-07-24",
-      "bevel_mm": 1.5,
-      "detail_grid": "",
-      "detail_depth_mm": 2.0
+      "generated_at": "2026-04-30"
     },
     {
       "id": "switch-1u-cisco-catalyst-c9300-48p-m",
       "file": "switch-1u-cisco-catalyst-c9300-48p-m.glb",
       "category": "device",
-      "source": "device-to-glb-hq",
+      "source": "device-to-glb",
       "license": "internal",
       "dimensions_mm": {
         "width": 445.0,
-        "depth": 450.0,
+        "depth": 483.0,
         "height": 44.0
       },
       "faces_textured": [
         "front",
         "rear"
       ],
-      "generated_at": "2026-07-24",
-      "bevel_mm": 2.0,
-      "detail_grid": "24x2",
-      "detail_depth_mm": 2.0
+      "generated_at": "2026-04-30"
     },
     {
       "id": "ups-3u-apc-smart-ups-xl-sua3000rmxl3u",

@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 
 & "$projectRoot\.venv\Scripts\python.exe" `
-    "$projectRoot\tools\device-to-glb.py" `
+    "$projectRoot\tools\device-to-glb-hq.py" `
     --id crac-floor-vertiv-liebert-crv `
     --width 1200 `
     --depth 800 `

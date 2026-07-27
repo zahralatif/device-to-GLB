@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 
 & "$projectRoot\.venv\Scripts\python.exe" `
-    "$projectRoot\tools\device-to-glb.py" `
+    "$projectRoot\tools\device-to-glb-hq.py" `
     --id switch-1u-cisco-catalyst-c9300-48p-m `
     --width 445 `
     --depth 483 `

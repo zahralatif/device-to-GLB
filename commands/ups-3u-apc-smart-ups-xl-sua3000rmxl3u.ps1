@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 
 & "$projectRoot\.venv\Scripts\python.exe" `
-    "$projectRoot\tools\device-to-glb.py" `
+    "$projectRoot\tools\device-to-glb-hq.py" `
     --id ups-3u-apc-smart-ups-xl-sua3000rmxl3u `
     --width 443 `
     --depth 660 `

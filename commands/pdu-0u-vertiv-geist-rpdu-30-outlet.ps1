@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 
 & "$projectRoot\.venv\Scripts\python.exe" `
-    "$projectRoot\tools\device-to-glb.py" `
+    "$projectRoot\tools\device-to-glb-hq.py" `
     --id pdu-0u-vertiv-geist-rpdu-30-outlet `
     --width 50 `
     --depth 60 `
