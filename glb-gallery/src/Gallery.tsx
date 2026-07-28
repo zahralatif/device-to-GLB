@@ -178,10 +178,15 @@ function ModelViewer({
     >
       <Canvas
         camera={{
-          position: [1.2, -1.5, 0.9],
+          position: [0, -1.8, 0],
           fov: 42,
           near: 0.01,
           far: 100,
+          up: [0, 0, 1],
+        }}
+        onCreated={({ camera }) => {
+          camera.up.set(0, 0, 1)
+          camera.lookAt(0, 0, 0)
         }}
         gl={{
           antialias: true,
@@ -226,6 +231,7 @@ function ModelViewer({
           dampingFactor={0.08}
           minDistance={0.25}
           maxDistance={4}
+          target={[0, 0, 0]}
         />
 
         <ZoomStatus onDistanceChange={setDistance} />
