@@ -5,6 +5,10 @@ from app.api.v1.health import router as health_router
 from app.api.v1.vendors import router as vendor_router
 from app.api.v1.device_types import router as device_type_router
 from app.api.v1.models import router as model_router
+from app.api.v1.catalog import router as catalog_router
+
+from app.db.session import SessionLocal
+from app.services.device_type_seed import seed_device_types
 
 from app.core.config import settings
 from app.core.logging import setup_logging
@@ -28,6 +32,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+def startup():
+    db = SessionLocal()
+
+    try:
+        seed_device_types(db)
+    finally:
+        db.close()
+
 app.include_router(
     health_router,
     prefix="/api/v1"
@@ -45,5 +58,10 @@ app.include_router(
 
 app.include_router(
     model_router,
+    prefix="/api/v1",
+)
+
+app.include_router(
+    catalog_router,
     prefix="/api/v1",
 )

@@ -7,6 +7,9 @@ from app.schemas.device_model import (
     DeviceModelCreate,
     DeviceModelResponse,
 )
+from app.services.model_validation_service import (
+    validate_model_id,
+)
 
 router = APIRouter(
     prefix="/models",
@@ -41,14 +44,17 @@ def get_model(
     return model
 
 
-@router.post(
-    "/",
-    response_model=DeviceModelResponse,
-)
+@router.post("/", response_model=DeviceModelResponse)
 def create_model(
     model: DeviceModelCreate,
     db: Session = Depends(get_db),
 ):
+    if not validate_model_id(model.model_id):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid model_id format",
+        )
+
     return crud.create(db, model)
 
 
