@@ -34,7 +34,7 @@ def delete(db: Session, model_id: int):
         db.commit()
 
     return db_model
-    
+
 def update_face_image(
     db: Session,
     model: DeviceModel,
@@ -47,3 +47,25 @@ def update_face_image(
     db.refresh(model)
 
     return model
+
+def update_glb_path(
+    db: Session,
+    model: DeviceModel,
+    path: str,
+):
+    model.glb_path = path
+
+    db.commit()
+    db.refresh(model)
+
+    return model
+
+def get_by_model_id(
+    db: Session,
+    model_id: str,
+):
+    return (
+        db.query(DeviceModel)
+        .filter(DeviceModel.model_id == model_id)
+        .first()
+    )

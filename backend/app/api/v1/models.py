@@ -13,6 +13,7 @@ from app.services.model_validation_service import (
 )
 from app.services.upload_service import save_upload
 from app.services.prepare_image_service import prepare_image
+from app.services.glb_generation_service import generate_glb
 
 router = APIRouter(
     prefix="/models",
@@ -96,24 +97,65 @@ def upload_model_face(
         )
 
     path = save_upload(
-        model.model_id,
-        face,
-        file,
+    model.model_id,
+    face,
+    file,
     )
+
+    crud.update_face_image(
+        db,
+        model,
+        face,
+        path,
+    )
+
     prepared_path = prepare_image(
         model.model_id,
         face,
         path,
     )
 
-    crud.update_face_image(
-        db=db,
-        model=model,
-        face=face,
-        path=path,
+    glb_path = generate_glb(
+        model.model_id,
+    )
+
+    crud.update_glb_path(
+        db,
+        model,
+        glb_path,
     )
 
     return {
-        "original": path,
-        "prepared": prepared_path,
+    "original": path,
+    "prepared": prepared_path,
+    "glb": glb_path,
+    }
+
+@router.get("/{model_id}/gallery")
+def get_gallery(
+    model_id: str,
+    db: Session = Depends(get_db),
+):
+    model = crud.get_by_model_id(
+        db,
+        model_id,
+    )
+
+    if not model:
+        raise HTTPException(
+            status_code=404,
+            detail="Model not found",
+        )
+
+    return {
+        "model_id": model.model_id,
+        "images": {
+            "front": model.front_image,
+            "rear": model.rear_image,
+            "left": model.left_image,
+            "right": model.right_image,
+            "top": model.top_image,
+            "bottom": model.bottom_image,
+        },
+        "glb": model.glb_path,
     }
