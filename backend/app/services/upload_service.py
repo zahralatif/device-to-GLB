@@ -1,20 +1,36 @@
 from pathlib import Path
-from uuid import uuid4
 import shutil
 
 from fastapi import UploadFile
 
-from app.core.storage import UPLOAD_ROOT
+from app.core.storage import ORIGINAL_ROOT
 
+def save_upload(
+    model_id: str,
+    face: str,
+    file: UploadFile,
+) -> str:
 
-def save_upload(file: UploadFile) -> str:
-    extension = Path(file.filename).suffix.lower()
+    VALID_FACES = {
+        "front",
+        "rear",
+        "left",
+        "right",
+        "top",
+        "bottom",
+    }
 
-    filename = f"{uuid4().hex}{extension}"
+    if face not in VALID_FACES:
+        raise ValueError(f"Invalid face: {face}")
 
-    destination = UPLOAD_ROOT / filename
+    folder = ORIGINAL_ROOT / model_id
+    folder.mkdir(parents=True, exist_ok=True)
+
+    extension = Path(file.filename).suffix or ".png"
+
+    destination = folder / f"{face}{extension}"
 
     with destination.open("wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        buffer.write(file.file.read())
 
     return str(destination)

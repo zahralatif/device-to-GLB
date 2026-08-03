@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
 from sqlalchemy.orm import Session
 
 from app.crud import device_model as crud
+from app.models.device_model import DeviceModel
 from app.db.dependencies import get_db
 from app.schemas.device_model import (
     DeviceModelCreate,
@@ -10,6 +11,8 @@ from app.schemas.device_model import (
 from app.services.model_validation_service import (
     validate_model_id,
 )
+from app.services.upload_service import save_upload
+from app.services.prepare_image_service import prepare_image
 
 router = APIRouter(
     prefix="/models",
@@ -72,3 +75,45 @@ def delete_model(
         )
 
     return {"message": "Model deleted"}
+
+@router.post("/{model_id}/upload/{face}")
+def upload_model_face(
+    model_id: str,
+    face: str,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+):
+    model = (
+        db.query(DeviceModel)
+        .filter(DeviceModel.model_id == model_id)
+        .first()
+    )
+
+    if not model:
+        raise HTTPException(
+            status_code=404,
+            detail="Model not found",
+        )
+
+    path = save_upload(
+        model.model_id,
+        face,
+        file,
+    )
+    prepared_path = prepare_image(
+        model.model_id,
+        face,
+        path,
+    )
+
+    crud.update_face_image(
+        db=db,
+        model=model,
+        face=face,
+        path=path,
+    )
+
+    return {
+        "original": path,
+        "prepared": prepared_path,
+    }

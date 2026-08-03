@@ -34,3 +34,16 @@ def delete(db: Session, model_id: int):
         db.commit()
 
     return db_model
+    
+def update_face_image(
+    db: Session,
+    model: DeviceModel,
+    face: str,
+    path: str,
+):
+    setattr(model, f"{face}_image", path)
+
+    db.commit()
+    db.refresh(model)
+
+    return model
