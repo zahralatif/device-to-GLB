@@ -97,9 +97,15 @@ def upload_model_face(
         )
 
     path = save_upload(
-    model.model_id,
-    face,
-    file,
+        model.model_id,
+        face,
+        file,
+    )
+
+    prepared_path = prepare_image(
+        model.model_id,
+        face,
+        path,
     )
 
     crud.update_face_image(
@@ -109,11 +115,41 @@ def upload_model_face(
         path,
     )
 
-    prepared_path = prepare_image(
-        model.model_id,
-        face,
-        path,
+    return {
+    "original": path,
+    "prepared": prepared_path,
+    }
+
+@router.post("/{model_id}/generate")
+def generate_model_glb(
+    model_id: str,
+    db: Session = Depends(get_db),
+):
+    model = crud.get_by_model_id(
+        db,
+        model_id,
     )
+
+    if not model:
+        raise HTTPException(
+            status_code=404,
+            detail="Model not found",
+        )
+
+    required_faces = [
+        model.front_image,
+        model.rear_image,
+        model.left_image,
+        model.right_image,
+        model.top_image,
+        model.bottom_image,
+    ]
+
+    if not any(required_faces):
+        raise HTTPException(
+            status_code=400,
+            detail="No uploaded images found",
+        )
 
     glb_path = generate_glb(
         model.model_id,
@@ -126,9 +162,9 @@ def upload_model_face(
     )
 
     return {
-    "original": path,
-    "prepared": prepared_path,
-    "glb": glb_path,
+        "model_id": model.model_id,
+        "glb": glb_path,
+        "status": "generated",
     }
 
 @router.get("/{model_id}/gallery")
@@ -157,5 +193,32 @@ def get_gallery(
             "top": model.top_image,
             "bottom": model.bottom_image,
         },
+        "glb": model.glb_path,
+    }
+
+@router.get("/{model_id}/preview")
+def preview_model(
+    model_id: str,
+    db: Session = Depends(get_db),
+):
+    model = crud.get_by_model_id(
+        db,
+        model_id,
+    )
+
+    if not model:
+        raise HTTPException(
+            status_code=404,
+            detail="Model not found",
+        )
+
+    if not model.glb_path:
+        raise HTTPException(
+            status_code=400,
+            detail="GLB has not been generated yet",
+        )
+
+    return {
+        "model_id": model.model_id,
         "glb": model.glb_path,
     }
