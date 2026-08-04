@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.v1.health import router as health_router
 from app.api.v1.vendors import router as vendor_router
@@ -27,6 +28,11 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+
+        "http://localhost:5557",
+        "http://127.0.0.1:5557",
+
+        "https://3dmodeller-srv01.dci.internal",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -70,4 +76,10 @@ app.include_router(
 app.include_router(
     upload_router,
     prefix="/api/v1",
+)
+
+app.mount(
+    "/storage",
+    StaticFiles(directory="storage"),
+    name="storage",
 )

@@ -8,6 +8,8 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Html, OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import { getModels } from "./api/models";
+import { API_URL } from "./api/client";
 
 interface ModelCard {
   id: string
@@ -273,6 +275,14 @@ export function Gallery() {
   const [selectedCard, setSelectedCard] =
     useState<ModelCard | null>(null)
 
+  const [models, setModels] = useState<any[]>([]);
+
+  useEffect(() => {
+    getModels()
+      .then(setModels)
+      .catch(console.error);
+  }, []);
+
   useEffect(() => {
     if (!selectedCard) {
       return
@@ -296,6 +306,23 @@ export function Gallery() {
     }
   }, [selectedCard])
 
+  console.log(models);
+
+
+  const cards: ModelCard[] = models
+  .filter((model) => model.glb_path)
+  .map((model) => ({
+    id: model.model_id,
+    label: model.model_id,
+    type: model.model_series,
+    dimensions:
+      model.rack_units != null
+        ? `${model.rack_units}U`
+        : "-",
+    file: `${API_URL}/${model.glb_path}`,
+    expectedTriangles: "?",
+  }));
+  console.log(cards);
   return (
     <main className="page">
       <header className="page-header">
@@ -309,13 +336,13 @@ export function Gallery() {
         </div>
 
         <div className="summary">
-          <strong>6</strong>
+          <strong>{cards.length}</strong>
           <span>HQ models</span>
         </div>
       </header>
 
       <section className="gallery">
-        {EQUIPMENT.map((card) => (
+        {cards.map((card) => (
           <article className="card" key={card.id}>
             <div className="card-header">
               <div>
