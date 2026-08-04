@@ -24,6 +24,18 @@ class DeviceModelCreate(DeviceModelBase):
     vendor_id: int
 
 
+class DeviceModelUpdate(BaseModel):
+    model_series: Optional[str] = None
+
+    rack_units: Optional[int] = None
+    part_number: Optional[str] = None
+
+    body_colour: Optional[str] = None
+
+    device_type_id: Optional[int] = None
+    vendor_id: Optional[int] = None
+
+
 class DeviceModelResponse(DeviceModelBase):
     id: int
 

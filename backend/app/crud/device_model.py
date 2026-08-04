@@ -80,3 +80,24 @@ def approve(
     db.refresh(model)
 
     return model
+
+def update(
+    db: Session,
+    model: DeviceModel,
+    data,
+):
+    values = data.model_dump(
+        exclude_unset=True,
+    )
+
+    for key, value in values.items():
+        setattr(
+            model,
+            key,
+            value,
+        )
+
+    db.commit()
+    db.refresh(model)
+
+    return model

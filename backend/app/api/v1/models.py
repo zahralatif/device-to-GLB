@@ -5,6 +5,7 @@ from app.crud import device_model as crud
 from app.db.dependencies import get_db
 from app.schemas.device_model import (
     DeviceModelCreate,
+    DeviceModelUpdate,
     DeviceModelResponse,
 )
 from app.services.model_validation_service import (
@@ -166,6 +167,32 @@ def generate_model_glb(
         "glb": glb_path,
         "status": "generated",
     }
+
+@router.put(
+    "/{model_id}",
+    response_model=DeviceModelResponse,
+)
+def update_model(
+    model_id: str,
+    data: DeviceModelUpdate,
+    db: Session = Depends(get_db),
+):
+    model = crud.get_by_model_id(
+        db,
+        model_id,
+    )
+
+    if not model:
+        raise HTTPException(
+            status_code=404,
+            detail="Model not found",
+        )
+
+    return crud.update(
+        db,
+        model,
+        data,
+    )
 
 @router.post("/{model_id}/approve")
 def approve_model(
