@@ -4,8 +4,17 @@ from app.models.device_model import DeviceModel
 from app.schemas.device_model import DeviceModelCreate
 
 
-def get_all(db: Session):
-    return db.query(DeviceModel).all()
+def get_all(
+    db: Session,
+    skip: int = 0,
+    limit: int = 20,
+):
+    return (
+        db.query(DeviceModel)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_by_id(db: Session, model_id: int):

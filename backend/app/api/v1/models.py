@@ -25,8 +25,16 @@ router = APIRouter(
     "/",
     response_model=list[DeviceModelResponse],
 )
-def get_models(db: Session = Depends(get_db)):
-    return crud.get_all(db)
+def get_models(
+    skip: int = 0,
+    limit: int = 20,
+    db: Session = Depends(get_db),
+):
+    return crud.get_all(
+        db,
+        skip,
+        limit,
+    )
 
 @router.get(
     "/{model_id}",
