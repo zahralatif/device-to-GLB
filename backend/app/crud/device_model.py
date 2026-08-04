@@ -69,3 +69,14 @@ def get_by_model_id(
         .filter(DeviceModel.model_id == model_id)
         .first()
     )
+
+def approve(
+    db: Session,
+    model: DeviceModel,
+):
+    model.status = "approved"
+
+    db.commit()
+    db.refresh(model)
+
+    return model

@@ -66,3 +66,9 @@ class DeviceModel(Base):
         String(255),
         nullable=True,
     )
+
+    status: Mapped[str] = mapped_column(
+        String(20),
+        default="draft",
+        nullable=False,
+    )

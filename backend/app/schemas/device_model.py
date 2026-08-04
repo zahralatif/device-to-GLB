@@ -29,6 +29,7 @@ class DeviceModelResponse(DeviceModelBase):
 
     device_type_id: int
     vendor_id: int
+    status: str
 
     glb_path: Optional[str] = None
 

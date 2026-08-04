@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
 from sqlalchemy.orm import Session
 
 from app.crud import device_model as crud
-from app.models.device_model import DeviceModel
 from app.db.dependencies import get_db
 from app.schemas.device_model import (
     DeviceModelCreate,
@@ -28,16 +27,18 @@ router = APIRouter(
 def get_models(db: Session = Depends(get_db)):
     return crud.get_all(db)
 
-
 @router.get(
     "/{model_id}",
     response_model=DeviceModelResponse,
 )
 def get_model(
-    model_id: int,
+    model_id: str,
     db: Session = Depends(get_db),
 ):
-    model = crud.get_by_id(db, model_id)
+    model = crud.get_by_model_id(
+        db,
+        model_id,
+    )
 
     if not model:
         raise HTTPException(
@@ -84,10 +85,9 @@ def upload_model_face(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
 ):
-    model = (
-        db.query(DeviceModel)
-        .filter(DeviceModel.model_id == model_id)
-        .first()
+    model = crud.get_by_model_id(
+        db,
+        model_id,
     )
 
     if not model:
@@ -165,6 +165,38 @@ def generate_model_glb(
         "model_id": model.model_id,
         "glb": glb_path,
         "status": "generated",
+    }
+
+@router.post("/{model_id}/approve")
+def approve_model(
+    model_id: str,
+    db: Session = Depends(get_db),
+):
+    model = crud.get_by_model_id(
+        db,
+        model_id,
+    )
+
+    if not model:
+        raise HTTPException(
+            status_code=404,
+            detail="Model not found",
+        )
+
+    if not model.glb_path:
+        raise HTTPException(
+            status_code=400,
+            detail="Generate GLB first",
+        )
+
+    crud.approve(
+        db,
+        model,
+    )
+
+    return {
+        "model_id": model.model_id,
+        "status": model.status,
     }
 
 @router.get("/{model_id}/gallery")
